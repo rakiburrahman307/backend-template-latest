@@ -20,5 +20,6 @@ export type IUser = {
 export type UserModel = {
   isExistUserById(id: string): any;
   isExistUserByEmail(email: string): any;
+  isExistUserByPhone(contact: string): any;
   isMatchPassword(password: string, hashPassword: string): boolean;
 } & Model<IUser>;

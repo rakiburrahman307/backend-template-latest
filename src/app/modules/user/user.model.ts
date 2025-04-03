@@ -75,7 +75,9 @@ userSchema.statics.isExistUserById = async (id: string) => {
 userSchema.statics.isExistUserByEmail = async (email: string) => {
   return await User.findOne({ email });
 };
-
+userSchema.statics.isExistUserByPhone = async (contact: string) => {
+  return await User.findOne({ contact });
+};
 // Password Matching
 userSchema.statics.isMatchPassword = async (
   password: string,
