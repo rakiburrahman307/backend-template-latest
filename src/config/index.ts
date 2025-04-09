@@ -4,7 +4,7 @@ dotenv.config({ path: path.join(process.cwd(), '.env') });
 
 export default {
   ip_address: process.env.IP_ADDRESS,
-  reset_pass_ui_link: process.env.RESET_PASS_UI_LINK, 
+  reset_pass_ui_link: process.env.RESET_PASS_UI_LINK,
   reset_pass_expire_time: process.env.RESET_TOKEN_EXPIRE_TIME,
   database_url: process.env.DATABASE_URL,
   node_env: process.env.NODE_ENV,
@@ -18,7 +18,9 @@ export default {
     jwt_refresh_secret: process.env.JWT_REFRESH_SECRET,
     jwt_refresh_expire_in: process.env.JWT_REFRESH_EXPIRE_IN,
   },
+  
   email: {
+    email_header: process.env.EMAIL_HEADER_NAME,
     from: process.env.EMAIL_FROM,
     user: process.env.EMAIL_USER,
     port: process.env.EMAIL_PORT,
@@ -36,7 +38,7 @@ export default {
   twilio: {
     accountSid: process.env.TWILIO_ACCOUNT_SID || '',
     authToken: process.env.TWILIO_AUTH_TOKEN || '',
-    phoneNumber: process.env.TWILIO_PHONE_NUMBER || ''
+    phoneNumber: process.env.TWILIO_PHONE_NUMBER || '',
   },
   super_admin: {
     email: process.env.SUPER_ADMIN_EMAIL,
