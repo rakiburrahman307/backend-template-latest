@@ -1,0 +1,25 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 1
+    },
+    "auditLog": "D:\\backend letest templete\\letest templete\\letest templete\\winston\\success\\.76f5bc15fc951c6e86de4fd235f5274798286872-audit.json",
+    "files": [
+        {
+            "date": 1744800775369,
+            "name": "D:\\backend letest templete\\letest templete\\letest templete\\winston\\success\\16-04-2025-16-success.log",
+            "hash": "19e241003720ca389bcff846a797dbbac002febb0c97d32a23832554cad6f976"
+        },
+        {
+            "date": 1744804307108,
+            "name": "D:\\backend letest templete\\letest templete\\letest templete\\winston\\success\\16-04-2025-17-success.log",
+            "hash": "ba94f5dd2b4d8b069fe25908974ca2bb712d8e33f46e6126f86632d1412d2bdc"
+        },
+        {
+            "date": 1744804850336,
+            "name": "D:\\backend letest templete\\letest templete\\letest templete\\winston\\success\\16-04-2025-18-success.log",
+            "hash": "11d88e777d997e2bd86a38881f2ead6bfd1ed4c5611e15562a44d46d1f0180f3"
+        }
+    ],
+    "hashType": "sha256"
+}
