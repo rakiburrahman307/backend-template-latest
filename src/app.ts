@@ -5,6 +5,7 @@ import { Morgan } from './shared/morgen';
 import globalErrorHandler from './globalErrorHandler/globalErrorHandler';
 import { notFound } from './app/middleware/notFound';
 import { welcome } from './utils/welcome';
+import config from './config';
 const app: Application = express();
 
 //morgan
@@ -14,7 +15,7 @@ app.use(Morgan.errorHandler);
 //body parser
 app.use(
   cors({
-    origin: '*',
+    origin: config.allowed_origins || '*',
     credentials: true,
   }),
 );
