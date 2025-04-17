@@ -274,3 +274,20 @@ Thu Apr 17 2025 15:37:42 [SERVER-NAME] info: [32mConfig validation successful.
 Thu Apr 17 2025 15:37:42 [SERVER-NAME] info: [32m🚀 Database connected successfully[39m
 Thu Apr 17 2025 15:37:42 [SERVER-NAME] info: [33m♻️  Socket is listening on 10.0.60.126:6002[39m
 Thu Apr 17 2025 15:37:42 [SERVER-NAME] info: [33m♻️  Application listening on http://10.0.60.126:7001[39m
+Thu Apr 17 2025 15:38:25 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Apr 17 2025 15:38:25 [SERVER-NAME] info: [32m🚀 Database connected successfully[39m
+Thu Apr 17 2025 15:38:25 [SERVER-NAME] info: [33m♻️  Socket is listening on 10.0.60.126:6002[39m
+Thu Apr 17 2025 15:38:25 [SERVER-NAME] info: [33m♻️  Application listening on http://10.0.60.126:7001[39m
+Thu Apr 17 2025 15:49:32 [SERVER-NAME] info: 10.0.60.126 - POST /api/v1/users/ 200 - 250.231 ms
+Thu Apr 17 2025 15:49:35 [SERVER-NAME] info: Mail send successfully
+Thu Apr 17 2025 15:52:48 [SERVER-NAME] info: [34mSIGINT received. Shutting down gracefully...[39m
+Thu Apr 17 2025 15:52:51 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Apr 17 2025 15:52:51 [SERVER-NAME] info: [32m🚀 Database connected successfully[39m
+Thu Apr 17 2025 15:52:51 [SERVER-NAME] info: [33m♻️  Socket is listening on 10.0.60.126:6002[39m
+Thu Apr 17 2025 15:52:51 [SERVER-NAME] info: [33m♻️  Application listening on http://10.0.60.126:7001[39m
+Thu Apr 17 2025 15:52:51 [SERVER-NAME] info: [34mSIGINT received. Shutting down gracefully...[39m
+Thu Apr 17 2025 15:52:56 [SERVER-NAME] info: [32mConfig validation successful.[39m
+Thu Apr 17 2025 15:52:56 [SERVER-NAME] info: [32m🚀 Database connected successfully[39m
+Thu Apr 17 2025 15:52:56 [SERVER-NAME] info: [33m♻️  Socket is listening on 10.0.60.126:6002[39m
+Thu Apr 17 2025 15:52:56 [SERVER-NAME] info: [33m♻️  Application listening on http://10.0.60.126:7001[39m
+Thu Apr 17 2025 15:52:59 [SERVER-NAME] info: [34mSIGINT received. Shutting down gracefully...[39m
