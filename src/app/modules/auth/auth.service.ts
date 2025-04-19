@@ -22,11 +22,13 @@ import { createToken } from '../../../utils/createToken';
 //login
 const loginUserFromDB = async (payload: ILoginData) => {
   const { email, password } = payload;
+  if (!password) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Password is required!');
+  }
   const isExistUser = await User.findOne({ email }).select('+password');
   if (!isExistUser) {
     throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
   }
-
   //check verified and status
   if (!isExistUser.verified) {
     //send mail
@@ -452,5 +454,5 @@ export const AuthService = {
   forgetPasswordByUrlToDB,
   resetPasswordByUrl,
   resendOtpFromDb,
-  refreshToken
+  refreshToken,
 };
