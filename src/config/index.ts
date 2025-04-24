@@ -9,7 +9,7 @@ export default {
   database_url: process.env.DATABASE_URL,
   node_env: process.env.NODE_ENV,
   port: process.env.PORT,
-  stripe_secret_key: process.env.STRIPE_SECRET_KYE,
+
   bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
   socket_port: process.env.SOCKET_PORT,
   allowed_origins: process.env.ALLOWED_ORIGINS,
@@ -40,6 +40,14 @@ export default {
     accountSid: process.env.TWILIO_ACCOUNT_SID || '',
     authToken: process.env.TWILIO_AUTH_TOKEN || '',
     phoneNumber: process.env.TWILIO_PHONE_NUMBER || '',
+  },
+  stripe:{
+    stripe_secret_key: process.env.STRIPE_SECRET_KYE,
+    paymentSuccess_url: process.env.STRIPE_PAYMENT_SUCCESS_URL,
+    stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
+    stripe_webhook_url: process.env.STRIPE_WEBHOOK_URL,
+    stripe_product_id: process.env.STRIPE_PRODUCT_ID,
+
   },
   super_admin: {
     email: process.env.SUPER_ADMIN_EMAIL,

@@ -1,17 +1,35 @@
-import { logger } from "../shared/logger";
-import { gracefulShutdown } from "./shutdown";
+import { logger } from '../shared/logger';
+import { gracefulShutdown } from './shutdown';
 import colors from 'colors';
 
-// Set up process event handlers for graceful shutdown
 export function setupProcessHandlers() {
   process.on('uncaughtException', (error) => {
-    logger.error(colors.red('Uncaught Exception:'), error);
-    gracefulShutdown('uncaughtException');
+    const errorMessage =
+      error && typeof error.message === 'string'
+        ? error.message
+        : String(error);
+    if (errorMessage.includes('critical')) {
+      logger.error(colors.red('Uncaught Exception critical'), errorMessage);
+      gracefulShutdown('uncaughtException');
+    }
   });
+
   process.on('unhandledRejection', (reason, promise) => {
-    logger.error(colors.red('Unhandled Rejection at:'), promise, 'reason:', reason);
-    gracefulShutdown('unhandledRejection');
+    const reasonMessage =
+      reason instanceof Error ? reason.message : String(reason);
+
+    if (reasonMessage.includes('critical')) {
+      logger.error(
+        colors.red('Unhandled Rejection at critical'),
+        promise,
+        'reason:',
+        reasonMessage,
+      );
+      gracefulShutdown('unhandledRejection');
+    }
   });
+
+  // Signal handlers are fine as they are
   process.on('SIGINT', () => {
     gracefulShutdown('SIGINT');
   });
@@ -23,5 +41,4 @@ export function setupProcessHandlers() {
   process.on('SIGUSR2', () => {
     gracefulShutdown('SIGUSR2');
   });
-
 }
