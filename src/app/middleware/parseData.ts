@@ -4,6 +4,8 @@ const parseData = () => {
   return catchAsync(async (req, res, next) => {
     if (req?.body?.data) {
       req.body = JSON.parse(req.body.data);
+    }else{
+      req.body = 
     }
 
     next();
