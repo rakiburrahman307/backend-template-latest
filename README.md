@@ -2,7 +2,8 @@
 
 ## Overview
 
-This is a backend template designed for building scalable and maintainable applications using modern technologies and best practices. It provides a foundation for creating RESTful APIs with robust validation, error handling, and integration with MongoDB.
+This is a backend template designed for building scalable and maintainable applications using modern technologies and best practices. It provides a foundation for creating RESTful APIs with robust
+validation, error handling, and integration with MongoDB.
 
 ### Key Highlights
 
@@ -39,14 +40,13 @@ This is a backend template designed for building scalable and maintainable appli
 
 1. **Clone the Repository**
 
-   ```bash
-   git clone https://github.com/rakiburrahman307/backend-template-latest
-   ```
+     ```bash
+     git clone https://github.com/rakiburrahman307/backend-template-latest
+     ```
 
 ---
 
-- Install Dependencies
-  npm install
+- Install Dependencies npm install
 
 ## Validation and Error Handling
 
@@ -60,12 +60,10 @@ Design crafted with care by **Md. Rakibur Rahman** ✨🎨🚀
 - [GitHub](https://github.com/rakiburrahman307)
 - [LinkedIn](https://www.linkedin.com/in/md-rakibur-rahman-14b33a2a4/)
 - [Email Me](mailto:rakiburrahman307@gmail.com)
+
 ## Additional Resources
 
-Happy Coding! 🚀
-Thank you for using the **Backend Template**! 🚴‍♂️
-
-
+Happy Coding! 🚀 Thank you for using the **Backend Template**! 🚴‍♂️
 
 ## Step 1 - Set Up Your Project Environment
 
@@ -150,8 +148,7 @@ npx eslint --init
 
 At this point you may see that your version of `eslint: "^9.14.0"` has been changed to eslint: `"^9.15.0"`
 
-if that happens remove the eslint : `npm remove eslint`
-Then re-install: `npm i -D eslint@9.14.0`
+if that happens remove the eslint : `npm remove eslint` Then re-install: `npm i -D eslint@9.14.0`
 
 Now add the following code inside it.
 
@@ -171,21 +168,21 @@ import tseslint from 'typescript-eslint';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  { files: ['**/*.{js,mjs,cjs,ts}'] },
-  { languageOptions: { globals: globals.node } },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  {
-    ignores: ['node_modules', 'dist'],
-    rules: {
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'error',
-      'no-unused-expressions': 'error',
-      'prefer-const': 'error',
-      'no-undef': 'error',
-      'no-console': 'warn',
-    },
-  },
+     { files: ['**/*.{js,mjs,cjs,ts}'] },
+     { languageOptions: { globals: globals.node } },
+     pluginJs.configs.recommended,
+     ...tseslint.configs.recommended,
+     {
+          ignores: ['node_modules', 'dist'],
+          rules: {
+               'no-unused-vars': 'off',
+               '@typescript-eslint/no-unused-vars': 'error',
+               'no-unused-expressions': 'error',
+               'prefer-const': 'error',
+               'no-undef': 'error',
+               'no-console': 'warn',
+          },
+     },
 ];
 ```
 

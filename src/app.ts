@@ -14,10 +14,10 @@ app.use(Morgan.errorHandler);
 
 //body parser
 app.use(
-  cors({
-    origin: config.allowed_origins || '*',
-    credentials: true,
-  }),
+     cors({
+          origin: config.allowed_origins || '*',
+          credentials: true,
+     }),
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -30,7 +30,7 @@ app.use(express.static('public'));
 app.use('/api/v1', router);
 //live response
 app.get('/', (req: Request, res: Response) => {
-  res.send(welcome());
+     res.send(welcome());
 });
 
 //global error handle
