@@ -5,8 +5,8 @@ import sendResponse from '../../../shared/sendResponse';
 
 const createChat = catchAsync(async (req, res) => {
      const participant = req.body.participant;
-     const user = req.user;
-     const participants = [user.id, participant];
+     const { id }: any = req.user;
+     const participants = [id, participant];
      const result = await ChatService.createChatIntoDB(participants);
 
      sendResponse(res, {
@@ -19,7 +19,7 @@ const createChat = catchAsync(async (req, res) => {
 
 const markChatAsRead = catchAsync(async (req, res) => {
      const { id } = req.params;
-     const user = req.user;
+     const user: any = req?.user;
 
      const result = await ChatService.markChatAsRead(user.id, id);
      sendResponse(res, {
@@ -30,9 +30,9 @@ const markChatAsRead = catchAsync(async (req, res) => {
      });
 });
 const getChats = catchAsync(async (req, res) => {
-     const user = req.user;
+     const { id }: any = req.user;
 
-     const result = await ChatService.getAllChatsFromDB(user.id, req.query);
+     const result = await ChatService.getAllChatsFromDB(id, req.query);
      sendResponse(res, {
           statusCode: StatusCodes.OK,
           success: true,

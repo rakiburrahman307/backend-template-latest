@@ -1,15 +1,15 @@
-import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { StatusCodes } from 'http-status-codes';
 import { MessageService } from './message.service';
 
-const sendMessage = catchAsync(async (req: Request, res: Response) => {
-     const chatId = req.params.chatId;
-     req.body.sender = req.user?.id;
+const sendMessage = catchAsync(async (req, res) => {
+     const chatId: any = req.params.chatId;
+     const { id }: any = req.user;
+     req.body.sender = id;
      req.body.chatId = chatId;
 
-     const message = await MessageService.sendMessageToDB(req.body, req.files);
+     const message = await MessageService.sendMessageToDB(req.body);
      sendResponse(res, {
           statusCode: StatusCodes.OK,
           success: true,
@@ -18,18 +18,18 @@ const sendMessage = catchAsync(async (req: Request, res: Response) => {
      });
 });
 
-const getAllMessage = catchAsync(async (req: Request, res: Response) => {
-     const id = req.params.id;
-     const messages = await MessageService.getMessagesFromDB(req.params.id);
+const getAllMessage = catchAsync(async (req, res) => {
+     const messages = await MessageService.getMessagesFromDB(req.params.id, req.query);
      sendResponse(res, {
           statusCode: StatusCodes.OK,
           success: true,
           message: 'Message Retrieve Successfully',
-          data: messages,
+          data: messages.messages,
+          pagination: messages.pagination,
      });
 });
-const addReaction = catchAsync(async (req: Request, res: Response) => {
-     const { id } = req.user;
+const addReaction = catchAsync(async (req, res) => {
+     const { id }: any = req.user;
      const { messageId } = req.params;
      const { reactionType } = req.body;
      const messages = await MessageService.addReactionToMessage(id, messageId, reactionType);
@@ -40,8 +40,8 @@ const addReaction = catchAsync(async (req: Request, res: Response) => {
           data: messages,
      });
 });
-const deleteMessage = catchAsync(async (req: Request, res: Response) => {
-     const { id } = req.user;
+const deleteMessage = catchAsync(async (req, res) => {
+     const { id }: any = req.user;
      const { messageId } = req.params;
      const messages = await MessageService.deleteMessage(id, messageId);
      sendResponse(res, {
@@ -52,4 +52,9 @@ const deleteMessage = catchAsync(async (req: Request, res: Response) => {
      });
 });
 
-export const MessageController = { sendMessage, getAllMessage, addReaction, deleteMessage };
+export const MessageController = {
+     sendMessage,
+     getAllMessage,
+     addReaction,
+     deleteMessage,
+};

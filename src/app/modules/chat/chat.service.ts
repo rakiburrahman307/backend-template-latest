@@ -2,12 +2,17 @@ import { User } from '../user/user.model';
 import { Chat } from './chat.model';
 
 const createChatIntoDB = async (participants: string[]) => {
-     const isExistChat = await Chat.findOne({ participants: { $all: participants } });
+     const isExistChat = await Chat.findOne({
+          participants: { $all: participants },
+     });
 
      if (isExistChat) {
           return isExistChat;
      }
-     const newChat = await Chat.create({ participants: participants, lastMessage: null });
+     const newChat = await Chat.create({
+          participants: participants,
+          lastMessage: null,
+     });
      if (!newChat) {
           throw new Error('Failed to create chat');
      }
@@ -46,7 +51,7 @@ const getAllChatsFromDB = async (userId: string, query: Record<string, any>) => 
                const otherParticipants = await User.find({
                     _id: { $in: otherParticipantIds },
                })
-                    .select('_id profile userName email')
+                    .select('_id image name email')
                     .lean();
 
                const isRead = !!(Array.isArray(chat.readBy) && chat.readBy.some((id: any) => id.toString() === userId));
@@ -63,7 +68,7 @@ const getAllChatsFromDB = async (userId: string, query: Record<string, any>) => 
      const filteredChatLists = searchTerm
           ? chatLists.filter((chat) => {
                  // Check if any participant's userName matches the searchTerm
-                 return chat.participants.some((participant) => participant.userName.toLowerCase().includes(searchTerm));
+                 return chat.participants.some((participant) => participant.name.toLowerCase().includes(searchTerm));
             })
           : chatLists;
 
@@ -72,6 +77,7 @@ const getAllChatsFromDB = async (userId: string, query: Record<string, any>) => 
           unreadChat,
      };
 };
+
 export const ChatService = {
      createChatIntoDB,
      getAllChatsFromDB,
