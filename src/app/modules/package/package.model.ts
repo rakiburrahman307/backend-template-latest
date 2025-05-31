@@ -15,6 +15,10 @@ const packageSchema = new Schema<IPackage, PackageModel>(
                type: Number,
                required: true,
           },
+          priceId: {
+               type: String,
+               required: true,
+          },
           duration: {
                type: String,
                enum: ['1 month', '3 months', '6 months', '1 year'],
@@ -29,22 +33,19 @@ const packageSchema = new Schema<IPackage, PackageModel>(
                type: String,
                required: true,
           },
-          credit: {
-               type: Number,
-               required: true,
-          },
-          loginLimit: {
-               type: Number,
-               required: true,
-          },
-          paymentLink: {
+          subscriptionType: {
                type: String,
+               enum: ['app', 'web'],
                required: true,
           },
           status: {
                type: String,
-               enum: ['Active', 'Delete'],
-               default: 'Active',
+               enum: ['active', 'inactive'],
+               default: 'active',
+          },
+          isDeleted: {
+               type: Boolean,
+               default: false,
           },
      },
      {

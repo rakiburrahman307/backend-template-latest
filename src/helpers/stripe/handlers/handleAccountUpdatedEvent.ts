@@ -1,15 +1,17 @@
 import { StatusCodes } from 'http-status-codes';
 import Stripe from 'stripe';
-import ApiError from '../errors/ApiErrors';
-import stripe from '../config/stripe';
+import stripe from '../../../config/stripe';
+import AppError from '../../../errors/AppError';
 const User: any = '';
 
 export const handleAccountUpdatedEvent = async (data: Stripe.Account) => {
      // Find the user by Stripe account ID
-     const existingUser = await User.findOne({ 'stripeAccountInfo.accountId': data.id });
+     const existingUser = await User.findOne({
+          'stripeAccountInfo.accountId': data.id,
+     });
 
      if (!existingUser) {
-          throw new ApiError(StatusCodes.NOT_FOUND, `User not found for account ID: ${data.id}`);
+          throw new AppError(StatusCodes.NOT_FOUND, `User not found for account ID: ${data.id}`);
      }
 
      // Check if the onboarding is complete

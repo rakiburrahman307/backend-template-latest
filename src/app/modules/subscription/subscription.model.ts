@@ -11,7 +11,7 @@ const subscriptionSchema = new Schema<ISubscription, SubscriptionModel>(
                type: Number,
                required: true,
           },
-          user: {
+          userId: {
                type: Schema.Types.ObjectId,
                ref: 'User',
                required: true,
@@ -23,7 +23,8 @@ const subscriptionSchema = new Schema<ISubscription, SubscriptionModel>(
           },
           trxId: {
                type: String,
-               required: true,
+               required: false,
+               default: '',
           },
           subscriptionId: {
                type: String,
@@ -43,7 +44,7 @@ const subscriptionSchema = new Schema<ISubscription, SubscriptionModel>(
           },
           status: {
                type: String,
-               enum: ['expired', 'active', 'cancel'],
+               enum: ['expired', 'active', 'cancel', 'deactivated'],
                default: 'active',
                required: true,
           },

@@ -7,6 +7,7 @@ export type IUser = {
      password: string;
      image?: string;
      isDeleted: boolean;
+     stripeCustomerId: string;
      address: string;
      status: 'active' | 'blocked';
      verified: boolean;

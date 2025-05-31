@@ -46,6 +46,10 @@ const userSchema = new Schema<IUser, UserModel>(
                type: Boolean,
                default: false,
           },
+          stripeCustomerId: {
+               type: String,
+               default: "",
+          },
           authentication: {
                type: {
                     isResetPassword: {
@@ -75,7 +79,6 @@ userSchema.statics.isExistUserById = async (id: string) => {
 // db.users.updateOne({email:"tihow91361@linxues.com"},{email:"rakibhassan305@gmail.com"})
 
 userSchema.statics.isExistUserByEmail = async (email: string) => {
-     userSc;
      return await User.findOne({ email });
 };
 userSchema.statics.isExistUserByPhone = async (contact: string) => {

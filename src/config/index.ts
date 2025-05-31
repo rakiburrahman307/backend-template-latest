@@ -4,7 +4,8 @@ dotenv.config({ path: path.join(process.cwd(), '.env') });
 
 export default {
      ip_address: process.env.IP_ADDRESS,
-     reset_pass_ui_link: process.env.RESET_PASS_UI_LINK,
+     frontend_url: process.env.FONTEND_URL,
+     backend_url: process.env.BACKEND_URL,
      reset_pass_expire_time: process.env.RESET_TOKEN_EXPIRE_TIME,
      database_url: process.env.DATABASE_URL,
      node_env: process.env.NODE_ENV,

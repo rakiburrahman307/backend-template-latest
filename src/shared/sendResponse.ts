@@ -1,26 +1,25 @@
 import { Response } from 'express';
-
-type IData<T> = {
-     success: boolean;
-     statusCode: number;
-     message?: string;
-     pagination?: {
-          page: number;
-          limit: number;
-          totalPage: number;
-          total: number;
-     };
-     data?: T;
+type TMeta = {
+     limit: number;
+     page: number;
+     total: number;
+     totalPage: number;
 };
-
-const sendResponse = <T>(res: Response, data: IData<T>) => {
-     const resData = {
-          success: data.success,
-          message: data.message,
-          pagination: data.pagination,
-          data: data.data,
-     };
-     res.status(data.statusCode).json(resData);
+type TResponse<T> = {
+     statusCode: number;
+     success: boolean;
+     message?: string;
+     data?: T;
+     meta?: TMeta;
+};
+const sendResponse = <T>(res: Response, data: TResponse<T>) => {
+     res.status(data?.statusCode).json({
+          success: data?.success,
+          message: data?.message,
+          statusCode: data?.statusCode,
+          data: data?.data,
+          meta: data?.meta,
+     });
 };
 
 export default sendResponse;

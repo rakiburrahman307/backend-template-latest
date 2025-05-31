@@ -3,20 +3,21 @@ import { IReview } from './review.interface';
 import { Review } from './review.model';
 import { StatusCodes } from 'http-status-codes';
 import { User } from '../user/user.model';
-import ApiError from '../../../errors/ApiErrors';
+import AppError from '../../../errors/AppError';
+
 
 const createReviewToDB = async (payload: IReview): Promise<IReview> => {
      // Fetch baber and check if it exists in one query
      const user: any = await User.findById(payload.barber);
      if (!user) {
-          throw new ApiError(StatusCodes.NOT_FOUND, 'No User Found');
+          throw new AppError(StatusCodes.NOT_FOUND, 'No User Found');
      }
 
      if (payload.rating) {
           // checking the rating is valid or not;
           const rating = Number(payload.rating);
           if (rating < 1 || rating > 5) {
-               throw new ApiError(StatusCodes.BAD_REQUEST, 'Invalid rating value');
+               throw new AppError(StatusCodes.BAD_REQUEST, 'Invalid rating value');
           }
 
           // Update service's rating and total ratings count
@@ -36,7 +37,7 @@ const createReviewToDB = async (payload: IReview): Promise<IReview> => {
 
      const result = await Review.create(payload);
      if (!result) {
-          throw new ApiError(StatusCodes.BAD_REQUEST, 'Failed To create Review');
+          throw new AppError(StatusCodes.BAD_REQUEST, 'Failed To create Review');
      }
      return payload;
 };

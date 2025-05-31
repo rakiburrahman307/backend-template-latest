@@ -25,7 +25,7 @@ const getAllMessage = catchAsync(async (req, res) => {
           success: true,
           message: 'Message Retrieve Successfully',
           data: messages.messages,
-          pagination: messages.pagination,
+          meta: messages.pagination,
      });
 });
 const addReaction = catchAsync(async (req, res) => {

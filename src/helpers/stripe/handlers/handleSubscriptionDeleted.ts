@@ -1,9 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
 import Stripe from 'stripe';
-import ApiError from '../errors/ApiErrors';
-import stripe from '../config/stripe';
-const User: any = '';
-const Subscription: any = '';
+import stripe from '../../../config/stripe';
+import AppError from '../../../errors/AppError';
+import { Subscription } from '../../../app/modules/subscription/subscription.model';
+import { User } from '../../../app/modules/user/user.model';
+// const User:any = "";
+// const Subscription:any = "";
 
 export const handleSubscriptionDeleted = async (data: Stripe.Subscription) => {
      // Retrieve the subscription from Stripe
@@ -17,17 +19,17 @@ export const handleSubscriptionDeleted = async (data: Stripe.Subscription) => {
 
      if (userSubscription) {
           // Deactivate the subscription
-          await Subscription.findByIdAndUpdate(userSubscription._id, { status: 'deactivated' }, { new: true });
+          await Subscription.findByIdAndUpdate(userSubscription._id, { status: 'cancel' }, { new: true });
 
           // Find the user associated with the subscription
           const existingUser = await User.findById(userSubscription?.userId);
 
           if (existingUser) {
-               await User.findByIdAndUpdate(existingUser._id, { hasAccess: false }, { new: true });
+               await User.findByIdAndUpdate(existingUser._id, { hasAccess: false, isSubscribed: false }, { new: true });
           } else {
-               throw new ApiError(StatusCodes.NOT_FOUND, `User not found.`);
+               throw new AppError(StatusCodes.NOT_FOUND, `User not found.`);
           }
      } else {
-          throw new ApiError(StatusCodes.NOT_FOUND, `Subscription not found.`);
+          throw new AppError(StatusCodes.NOT_FOUND, `Subscription not found.`);
      }
 };

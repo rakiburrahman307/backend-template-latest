@@ -23,7 +23,7 @@ const getComments = catchAsync(async (req, res) => {
           success: true,
           message: 'Comments retrieved successfully',
           data: result.comments,
-          pagination: result.meta,
+          meta: result.meta,
      });
 });
 // like comments

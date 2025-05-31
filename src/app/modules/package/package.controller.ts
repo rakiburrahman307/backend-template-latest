@@ -1,10 +1,9 @@
-import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import { PackageService } from './package.service';
 import sendResponse from '../../../shared/sendResponse';
 import { StatusCodes } from 'http-status-codes';
 
-const createPackage = catchAsync(async (req: Request, res: Response) => {
+const createPackage = catchAsync(async (req, res) => {
      const result = await PackageService.createPackageToDB(req.body);
 
      sendResponse(res, {
@@ -15,7 +14,7 @@ const createPackage = catchAsync(async (req: Request, res: Response) => {
      });
 });
 
-const updatePackage = catchAsync(async (req: Request, res: Response) => {
+const updatePackage = catchAsync(async (req, res) => {
      const result = await PackageService.updatePackageToDB(req.params.id, req.body);
 
      sendResponse(res, {
@@ -26,18 +25,28 @@ const updatePackage = catchAsync(async (req: Request, res: Response) => {
      });
 });
 
-const getPackage = catchAsync(async (req: Request, res: Response) => {
-     const result = await PackageService.getPackageFromDB(req.query.paymentType as string);
-
+const getPackage = catchAsync(async (req, res) => {
+     const result = await PackageService.getPackageFromDB(req.query);
      sendResponse(res, {
           statusCode: StatusCodes.OK,
           success: true,
           message: 'Package Retrieved Successfully',
-          data: result,
+          data: result.packages,
+          meta: result.meta,
+     });
+});
+const getPackageByUser = catchAsync(async (req, res) => {
+     const result = await PackageService.getPackageByUserFromDB(req.query);
+     sendResponse(res, {
+          statusCode: StatusCodes.OK,
+          success: true,
+          message: 'Package Retrieved Successfully',
+          data: result.packages,
+          meta: result.meta,
      });
 });
 
-const packageDetails = catchAsync(async (req: Request, res: Response) => {
+const packageDetails = catchAsync(async (req, res) => {
      const result = await PackageService.getPackageDetailsFromDB(req.params.id);
 
      sendResponse(res, {
@@ -48,7 +57,7 @@ const packageDetails = catchAsync(async (req: Request, res: Response) => {
      });
 });
 
-const deletePackage = catchAsync(async (req: Request, res: Response) => {
+const deletePackage = catchAsync(async (req, res) => {
      const result = await PackageService.deletePackageToDB(req.params.id);
 
      sendResponse(res, {
@@ -65,4 +74,5 @@ export const PackageController = {
      getPackage,
      packageDetails,
      deletePackage,
+     getPackageByUser,
 };

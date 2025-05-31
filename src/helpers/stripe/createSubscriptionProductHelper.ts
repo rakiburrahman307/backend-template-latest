@@ -1,10 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
-import { IPackage } from '../app/modules/package/package.interface';
-import stripe from '../config/stripe';
-import config from '../config';
-import AppError from '../errors/AppError';
+import { IPackage } from '../../app/modules/package/package.interface';
+import stripe from '../../config/stripe';
+import AppError from '../../errors/AppError';
 
-export const createSubscriptionProduct = async (payload: Partial<IPackage>): Promise<{ productId: string; paymentLink: string } | null> => {
+export const createSubscriptionProduct = async (payload: Partial<IPackage>): Promise<{ productId: string; priceId: string } | null> => {
      // Create Product in Stripe
      const product = await stripe.products.create({
           name: payload.title as string,
@@ -34,7 +33,7 @@ export const createSubscriptionProduct = async (payload: Partial<IPackage>): Pro
                break;
           default:
                interval = 'month';
-               intervalCount = 1; // Defaults to 1 month if duration is not specified
+               intervalCount = 1;
      }
 
      // Create Price for the Product
@@ -50,27 +49,27 @@ export const createSubscriptionProduct = async (payload: Partial<IPackage>): Pro
      }
 
      // Create a Payment Link
-     const paymentLink = await stripe.paymentLinks.create({
-          line_items: [
-               {
-                    price: price.id,
-                    quantity: 1,
-               },
-          ],
-          after_completion: {
-               type: 'redirect',
-               redirect: {
-                    url: `${config.stripe.paymentSuccess_url}`, // Redirect URL on successful payment
-               },
-          },
-          metadata: {
-               productId: product.id,
-          },
-     });
+     // const paymentLink = await stripe.paymentLinks.create({
+     //     line_items: [
+     //         {
+     //             price: price.id,
+     //             quantity: 1,
+     //         },
+     //     ],
+     //     after_completion: {
+     //         type: 'redirect',
+     //         redirect: {
+     //             url: `${config.stripe.frontend_url}`, // Redirect URL on successful payment
+     //         },
+     //     },
+     //     metadata: {
+     //         productId: product.id,
+     //     },
+     // });
 
-     if (!paymentLink.url) {
-          throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create payment link');
-     }
+     // if (!paymentLink.url) {
+     //     throw new AppError(StatusCodes.BAD_REQUEST, "Failed to create payment link");
+     // }
 
-     return { productId: product.id, paymentLink: paymentLink.url };
+     return { productId: product.id, priceId: price.id };
 };
