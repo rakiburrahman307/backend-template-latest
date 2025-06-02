@@ -6,7 +6,6 @@ import fileUploadHandler from '../../middleware/fileUploadHandler';
 import parseFileData from '../../middleware/parseFileData';
 import { FOLDER_NAMES } from '../../../enums/files';
 
-
 const router = express.Router();
 
 router.post('/send-message/:chatId', auth(USER_ROLES.USER, USER_ROLES.SUPER_ADMIN), fileUploadHandler(), parseFileData(FOLDER_NAMES.IMAGE), MessageController.sendMessage);

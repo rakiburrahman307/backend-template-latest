@@ -48,7 +48,7 @@ const userSchema = new Schema<IUser, UserModel>(
           },
           stripeCustomerId: {
                type: String,
-               default: "",
+               default: '',
           },
           authentication: {
                type: {

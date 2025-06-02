@@ -43,7 +43,7 @@ export async function connectToDatabase(): Promise<void> {
                retryWrites: true,
                retryReads: true,
           });
-          logger.info(colors.green('🚀 Database connected successfully'));
+          logger.info(colors.bgCyan('🚀 Database connected successfully'));
           setupMongooseListeners();
      } catch (error) {
           errorLogger.error(colors.red('Database connection error'), error);

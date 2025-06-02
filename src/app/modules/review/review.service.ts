@@ -5,7 +5,6 @@ import { StatusCodes } from 'http-status-codes';
 import { User } from '../user/user.model';
 import AppError from '../../../errors/AppError';
 
-
 const createReviewToDB = async (payload: IReview): Promise<IReview> => {
      // Fetch baber and check if it exists in one query
      const user: any = await User.findById(payload.barber);

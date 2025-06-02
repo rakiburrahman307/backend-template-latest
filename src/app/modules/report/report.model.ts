@@ -30,6 +30,4 @@ const reportSchema = new Schema<IReport, ReportModel>(
      { timestamps: true },
 );
 
-
-
 export const Report = model<IReport, ReportModel>('Report', reportSchema);
