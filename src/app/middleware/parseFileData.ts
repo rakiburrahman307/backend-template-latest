@@ -8,7 +8,7 @@ const parseFileData = (fieldName: IFolderName) => {
                const filePath = getSingleFilePath(req.files, fieldName);
 
                // Handle additional data if present
-               if (req.body.data) {
+               if (req.body && req.body.data) {
                     const data = JSON.parse(req.body.data);
                     req.body = { [fieldName]: filePath, ...data };
                } else {
