@@ -25,7 +25,10 @@ const userSchema = new Schema<IUser, UserModel>(
           },
           password: {
                type: String,
-               required: true,
+               required: function() {
+                    // Password is only required for non-OAuth users
+                    return !this.oauthProvider;
+               },
                select: false,
                minlength: 8,
           },
@@ -49,6 +52,19 @@ const userSchema = new Schema<IUser, UserModel>(
           stripeCustomerId: {
                type: String,
                default: '',
+          },
+          // OAuth fields
+          googleId: {
+               type: String,
+               sparse: true,
+          },
+          facebookId: {
+               type: String,
+               sparse: true,
+          },
+          oauthProvider: {
+               type: String,
+               enum: ['google', 'facebook'],
           },
           authentication: {
                type: {
@@ -91,12 +107,24 @@ userSchema.statics.isMatchPassword = async (password: string, hashPassword: stri
 
 // Pre-Save Hook for Hashing Password & Checking Email Uniqueness
 userSchema.pre('save', async function (next) {
-     const isExist = await User.findOne({ email: this.get('email') });
-     if (isExist) {
-          throw new AppError(StatusCodes.BAD_REQUEST, 'Email already exists!');
+     // Only check email uniqueness if this is a new user or email is being changed
+     if (this.isNew || this.isModified('email')) {
+          const existingUser = await User.findOne({ email: this.get('email') });
+          if (existingUser && existingUser._id.toString() !== this._id.toString()) {
+               throw new AppError(StatusCodes.BAD_REQUEST, 'Email already exists!');
+          }
      }
 
-     this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds));
+     // Only hash password if it's provided and modified
+     if (this.password && this.isModified('password')) {
+          this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds));
+     }
+
+     // Auto-verify OAuth users
+     if (this.oauthProvider && !this.verified) {
+          this.verified = true;
+     }
+
      next();
 });
 

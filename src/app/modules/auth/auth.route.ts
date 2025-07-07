@@ -20,4 +20,10 @@ router.post('/dashboard/reset-password', auth(USER_ROLES.ADMIN, USER_ROLES.VENDO
 router.post('/change-password', auth(USER_ROLES.ADMIN, USER_ROLES.USER, USER_ROLES.VENDOR), validateRequest(AuthValidation.createChangePasswordZodSchema), AuthController.changePassword);
 router.post('/resend-otp', AuthController.resendOtp);
 
+// OAuth Routes
+router.get('/google', AuthController.googleAuth);
+router.get('/google/callback', AuthController.googleAuthCallback);
+router.get('/facebook', AuthController.facebookAuth);
+router.get('/facebook/callback', AuthController.facebookAuthCallback);
+
 export const AuthRouter = router;

@@ -4,13 +4,15 @@ export type IUser = {
      name: string;
      role: USER_ROLES;
      email: string;
-     password: string;
+     password?: string;
      image?: string;
      isDeleted: boolean;
      stripeCustomerId: string;
-     address: string;
      status: 'active' | 'blocked';
      verified: boolean;
+     googleId?: string;
+     facebookId?: string;
+     oauthProvider?: 'google' | 'facebook';
      authentication?: {
           isResetPassword: boolean;
           oneTimeCode: number;

@@ -17,13 +17,21 @@ import { createToken } from '../../../utils/createToken';
 //login
 const loginUserFromDB = async (payload: ILoginData) => {
      const { email, password } = payload;
-     if (!password) {
-          throw new AppError(StatusCodes.BAD_REQUEST, 'Password is required!');
-     }
+     
      const isExistUser = await User.findOne({ email }).select('+password');
      if (!isExistUser) {
           throw new AppError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
      }
+
+     // Handle OAuth users (they don't have passwords)
+     if (isExistUser.oauthProvider) {
+          throw new AppError(StatusCodes.BAD_REQUEST, `This account was created using ${isExistUser.oauthProvider}. Please use the ${isExistUser.oauthProvider} login option.`);
+     }
+
+     if (!password) {
+          throw new AppError(StatusCodes.BAD_REQUEST, 'Password is required!');
+     }
+
      //check verified and status
      if (!isExistUser.verified) {
           //send mail
@@ -41,11 +49,11 @@ const loginUserFromDB = async (payload: ILoginData) => {
 
      //check user status
      if (isExistUser?.status === 'blocked') {
-          throw new AppError(StatusCodes.BAD_REQUEST, 'You don’t have permission to access this content.It looks like your account has been blocked.');
+          throw new AppError(StatusCodes.BAD_REQUEST, 'You do not have permission to access this content. It looks like your account has been blocked.');
      }
 
      //check match password
-     if (!(await User.isMatchPassword(password, isExistUser.password))) {
+     if (!(await User.isMatchPassword(password, isExistUser.password || ''))) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Password is incorrect!');
      }
 
@@ -233,7 +241,7 @@ const changePasswordToDB = async (user: JwtPayload, payload: IChangePassword) =>
      }
 
      //current password match
-     if (currentPassword && !(await User.isMatchPassword(currentPassword, isExistUser.password))) {
+     if (currentPassword && !(await User.isMatchPassword(currentPassword, isExistUser.password || ''))) {
           throw new AppError(StatusCodes.BAD_REQUEST, 'Password is incorrect');
      }
 

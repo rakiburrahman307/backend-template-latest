@@ -3,6 +3,7 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import config from '.';
 import { User } from '../app/modules/user/user.model';
+import { jwtHelper } from '../helpers/jwtHelper';
 
 // Google OAuth Strategy
 passport.use(
@@ -10,13 +11,41 @@ passport.use(
           {
                clientID: config.social.google_client_id as string,
                clientSecret: config.social.google_client_secret as string,
-               callbackURL: 'https://nadir.binarybards.online/api/v1/auth/google/callback',
+               callbackURL: config.social.callback_url || 'https://nadir.binarybards.online/api/v1/auth/google/callback',
           },
           async (accessToken, refreshToken, profile, done) => {
                try {
-                    console.log(profile);
-                    done(null, profile);
+                    console.log('Google Profile:', profile);
+                    
+                    // Check if user exists by Google ID
+                    let user = await User.findOne({ googleId: profile.id });
+                    
+                    if (!user) {
+                         // Check if user exists by email
+                         user = await User.findOne({ email: profile.emails?.[0]?.value });
+                         
+                         if (user) {
+                              // Update existing user with Google ID
+                              user.googleId = profile.id;
+                              user.oauthProvider = 'google';
+                              user.verified = true;
+                              await user.save();
+                         } else {
+                              // Create new user
+                              user = await User.create({
+                                   googleId: profile.id,
+                                   name: profile.displayName,
+                                   email: profile.emails?.[0]?.value,
+                                   image: profile.photos?.[0]?.value,
+                                   oauthProvider: 'google',
+                                   verified: true,
+                              });
+                         }
+                    }
+                    
+                    done(null, user);
                } catch (error) {
+                    console.error('Google OAuth Error:', error);
                     done(error, undefined);
                }
           },
@@ -30,22 +59,41 @@ passport.use(
                clientID: config.social.facebook_client_id as string,
                clientSecret: config.social.facebook_client_secret as string,
                callbackURL: '/auth/facebook/callback',
-               profileFields: ['id', 'displayName', 'emails'],
+               profileFields: ['id', 'displayName', 'emails', 'photos'],
           },
           async (accessToken, refreshToken, profile, done) => {
                try {
-                    let user = await User.findOne({ appId: profile.id });
-
+                    console.log('Facebook Profile:', profile);
+                    
+                    // Check if user exists by Facebook ID
+                    let user = await User.findOne({ facebookId: profile.id });
+                    
                     if (!user) {
-                         user = await User.create({
-                              appId: profile.id,
-                              name: profile.displayName,
-                              email: profile.emails?.[0]?.value,
-                         });
+                         // Check if user exists by email
+                         user = await User.findOne({ email: profile.emails?.[0]?.value });
+                         
+                         if (user) {
+                              // Update existing user with Facebook ID
+                              user.facebookId = profile.id;
+                              user.oauthProvider = 'facebook';
+                              user.verified = true;
+                              await user.save();
+                         } else {
+                              // Create new user
+                              user = await User.create({
+                                   facebookId: profile.id,
+                                   name: profile.displayName,
+                                   email: profile.emails?.[0]?.value,
+                                   image: profile.photos?.[0]?.value,
+                                   oauthProvider: 'facebook',
+                                   verified: true,
+                              });
+                         }
                     }
-
+                    
                     done(null, user);
                } catch (error) {
+                    console.error('Facebook OAuth Error:', error);
                     done(error, null);
                }
           },
@@ -59,8 +107,8 @@ passport.serializeUser((user: any, done) => {
 
 passport.deserializeUser(async (id, done) => {
      try {
-          // const user = await User.findById(id);
-          done(null, id as any);
+          const user = await User.findById(id);
+          done(null, user);
      } catch (error) {
           done(error, null);
      }
